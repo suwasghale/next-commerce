@@ -1,4 +1,5 @@
 import {Hero} from "@/components/Hero";
+import Link from "next/link";
 export default function Home() {
   return (
    <>
@@ -14,6 +15,7 @@ export default function Home() {
       ]}
       imageUrl="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
     />    
+    <Link href={"/products"} >Products List</Link>
     <main className="container mx-auto px-4">
       {/* Other components can go here */}
       <p>hello</p>  Features.tsx
