@@ -21,7 +21,8 @@ export default async function ProductsPage() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
       {products.map((p: any) => (
-        <Link key={p.id} href={`/products/${p.id}`}>
+        // <Link key={p.id} href={`/products/${p.id}`}>
+        <Link key={p.slug} href={`/products/${p.slug}`}>
           <div className="border p-4 rounded-lg shadow-sm hover:shadow-lg transition">
             <Image src={p.images[0]} width={200} height={200} alt={p.title} className=" w-full object-contain mb-2" />
             <h3 className="font-bold">{p.title}</h3>
