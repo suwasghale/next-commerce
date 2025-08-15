@@ -1,33 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const API = "https://api.escuelajs.co/api/v1/categories";
 export default async function CategoriesPage() {
-    let categories;
-    try{
-        const categories_response = await fetch(API)
-        if (!categories_response.ok) throw new Error("Failed to fetch categories");
-        categories = await categories_response.json();
-    }
-    catch(error){
-        categories = null;
-    }
+  const res = await fetch("https://api.escuelajs.co/api/v1/categories", {
+    cache: "no-store",
+  });
+  const categories = await res.json();
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Categories</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> 
-                {
-        categories && categories.map((cat:any)=>(
-            <Link href={`/categories/${cat.id}`} key= {cat.id}>
-            <Image src={cat.image} width={200} height={200} alt={cat.name} className="h-48 w-full object-contain mb-2" />
-            <p className="text-xl font-bold text-center">{cat.name}</p>
-            </Link>
-
-
-        ))
-      }
+    <div className="p-6 max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold mb-8">Categories</h1>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        {categories.map((category: any) => (
+          <Link
+            key={category.id}
+            href={`/categories/${category.slug}`}
+            className="border rounded-lg overflow-hidden hover:shadow-lg transition"
+          >
+            <Image
+              src={category.image}
+              alt={category.name}
+              width={300}
+              height={200}
+              className="w-full h-40 object-cover"
+            />
+            <h2 className="p-4 font-semibold text-lg">{category.name}</h2>
+          </Link>
+        ))}
       </div>
-  
     </div>
   );
 }
