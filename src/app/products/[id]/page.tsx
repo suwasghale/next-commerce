@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -18,7 +19,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <img src={product.images[0]} alt={product.title} className="h-96 w-full object-contain mb-4" />
+      <Image src={product.images[0]} width={1000} height={1000} alt={product.title} className="h-96 w-full object-contain mb-4" />
       <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
       <p className="text-xl text-gray-700 mb-4">${product.price}</p>
       <p>{product.description}</p>

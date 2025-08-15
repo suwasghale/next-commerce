@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const API = "https://api.escuelajs.co/api/v1/products";
@@ -22,7 +23,7 @@ export default async function ProductsPage() {
       {products.map((p: any) => (
         <Link key={p.id} href={`/products/${p.id}`}>
           <div className="border p-4 rounded-lg shadow-sm hover:shadow-lg transition">
-            <img src={p.images[0]} alt={p.title} className="h-48 w-full object-contain mb-2" />
+            <Image src={p.images[0]} width={200} height={200} alt={p.title} className=" w-full object-contain mb-2" />
             <h3 className="font-bold">{p.title}</h3>
             <p>${p.price}</p>
           </div>
