@@ -58,7 +58,14 @@ export const CartProvider = ({children} : {children: React.ReactNode}) => {
     // clear/empty the cart
     const clearCart = () => {
         setCart([]);
-    }   
+    }
+    
+    // Provide cart state and functions to children components
+    return (
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+            {children}
+        </CartContext.Provider>
+    )
 }
 
 
