@@ -1,54 +1,50 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import ProductImageMagnifier from "@/components/Product/ProductImageMagnifierifier";
 
-interface Props {
-  params: { slug: string };
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  description: string;
+  images: string[];
 }
 
-const API = "https://api.escuelajs.co/api/v1/products";
+async function getProductById(id: number): Promise<Product> {
+  const res = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch product");
+  return res.json();
+}
 
-export default async function ProductPage({ params }: Props) {
-  let product;
+export default async function ProductPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { id?: string };
+}) {
+  const id = Number(searchParams.id);
+  if (!id) return notFound();
 
-  try {
-    // 1. Get all products to find ID from slug
-    const listRes = await fetch(API, { cache: "no-store" });
-    const allProducts = await listRes.json();
-
-    // 2. Find the product with this slug
-    const matchedProduct = allProducts.find(
-      (p: any) => p.slug === params.slug
-    );
-
-    if (!matchedProduct) notFound();
-
-    // 3. Fetch the full details by ID
-    const res = await fetch(`${API}/${matchedProduct.id}`, {
-      cache: "no-store",
-    });
-    product = await res.json();
-  } catch (err) {
-    throw new Error("Failed to fetch product");
-  }
-
-  // Fallback image handling
-  const imageUrl =
-    Array.isArray(product.images) && product.images.length > 0
-      ? product.images[0]
-      : "/placeholder.png";
+  const product = await getProductById(id);
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <Image
-        src={imageUrl}
-        width={1000}
-        height={1000}
-        alt={product.title || "Product image"}
-        className="h-96 w-full object-contain mb-4"
+    <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <ProductImageMagnifier
+        src={product.images?.[0] || "/placeholder.png"}
+        width={400}
+        height={400}
+        zoom={2}
       />
-      <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
-      <p className="text-xl text-gray-700 mb-4">${product.price}</p>
-      <p>{product.description}</p>
+
+      <div>
+        <h1 className="text-2xl font-bold mb-4">{product.title}</h1>
+        <p className="text-xl text-green-600 mb-4">${product.price}</p>
+        <p className="text-gray-700">{product.description}</p>
+      </div>
     </div>
   );
 }
