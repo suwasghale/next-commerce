@@ -4,6 +4,7 @@ import { useRef, useState, MouseEvent } from "react";
 
 interface ProductImageMagnifierProps {
   src: string;
+  alt: string;
   zoom?: number;
   width?: number;
   height?: number;
@@ -11,6 +12,7 @@ interface ProductImageMagnifierProps {
 
 export default function ProductImageMagnifier({
   src,
+  alt,
   width,
   height,
   zoom = 2,
@@ -54,8 +56,8 @@ export default function ProductImageMagnifier({
       >
         <Image
           ref={imgRef}
+          alt = {alt}
           src={src}
-          alt="product"
           width= {width}
           height = {height}
           className="w-full h-auto object-cover block"
