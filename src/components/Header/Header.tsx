@@ -1,7 +1,12 @@
+'use client'
 import Link from "next/link";
 import { FC } from "react";
 
+import { useAppSelector } from "@/store/hooks";
+import { selectCartCount } from "@/store/cartSlice";
+
 const Header: FC = () => {
+    const totalItems = useAppSelector(selectCartCount);
   return (
     <header className="bg-white">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 xl:px-12">
@@ -17,24 +22,24 @@ const Header: FC = () => {
           {/* Main Navigation */}
           <nav className="hidden lg:flex lg:justify-start lg:ml-16 lg:space-x-8 xl:space-x-14">
             <Link
-              href="#"
+              href="/products"
               className="text-base font-medium text-gray-900 transition-all duration-200 rounded focus:outline-none hover:text-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
-              All Artworks
+              Products
+            </Link>
+
+            <Link
+              href="/categories"
+              className="text-base font-medium text-gray-900 transition-all duration-200 rounded hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            >
+              Categories
             </Link>
 
             <Link
               href="#"
               className="text-base font-medium text-gray-900 transition-all duration-200 rounded hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
-              All Artists
-            </Link>
-
-            <Link
-              href="#"
-              className="text-base font-medium text-gray-900 transition-all duration-200 rounded hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-            >
-              Sell Your Artwork
+              Contact
             </Link>
           </nav>
 
@@ -106,6 +111,17 @@ const Header: FC = () => {
                   3
                 </span>
               </button>
+
+                  <div className="relative">
+        <Link href="/cart" className="text-gray-700 hover:text-gray-900">
+          🛒 Cart
+        </Link>
+        {totalItems > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+            {totalItems}
+          </span>
+        )}
+      </div>
             </div>
           </div>
         </div>
