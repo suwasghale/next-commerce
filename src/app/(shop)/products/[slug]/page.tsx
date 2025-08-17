@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import ProductImageMagnifier from "@/components/Product/ProductImageMagnifier";
-import { useCart } from "@/contexts/Cart/CartContext";
-import toast from "react-hot-toast";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 interface Product {
   id: number;
@@ -20,7 +19,6 @@ export default function ProductPage({
   searchParams: { id?: string };
 }) {
   const [product, setProduct] = useState<Product | null>(null);
-  const { addToCart } = useCart(); // ✅ get addToCart from context
 
   useEffect(() => {
     if (!searchParams.id) return notFound();
@@ -30,18 +28,6 @@ export default function ProductPage({
   }, [searchParams.id]);
 
   if (!product) return <div>Loading...</div>;
-
-  const handleAddToCart = () =>{
-     addToCart({
-              id: product.id,
-              title: product.title,
-              price: product.price,
-              image: product.images?.[0] || "/placeholder.png",
-              quantity: 1,
-            })
-      toast.success(`${product.title} added to cart!`, {
-        duration: 5000})
-  }
 
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -57,14 +43,13 @@ export default function ProductPage({
         <p className="text-xl text-green-600 mb-4">${product.price}</p>
         <p className="text-gray-700">{product.description}</p>
 
-        <button
-          type="button"
-          aria-label={`Add ${product.title} to cart`}
-          onClick={handleAddToCart}
-          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition-colors duration-200 mt-4"
-        >
-          Add to Cart
-        </button>
+        {/* Use AddToCartButton here */}
+        <AddToCartButton
+          id={product.id}
+          title={product.title}
+          price={product.price}
+          image={product.images?.[0]}
+        />
       </div>
     </div>
   );
