@@ -207,6 +207,8 @@ export const selectCartTotalCents = (s: RootState): number => {
   return Math.round(subtotal - (subtotal * pct) / 100);
 };
 
+// active coupon code
+export const selectActiveCoupon = (state: RootState) => state.cart.activeCoupon;
 
 
 // Pick a single item (by id + variant)
