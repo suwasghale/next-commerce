@@ -18,7 +18,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ items, subtotal, tot
       <ul className="divide-y divide-gray-200 mb-4">
         {items.map((item) => (
           <li key={item.id + (item.variantKey || "")} className="py-2 flex justify-between items-center">
-            <Image height={100} width = {100} src={item.image} alt={item.title} className=" object-cover rounded" />
+            <Image height={50} width = {50} src={item.image} alt={item.title} className=" object-cover rounded" />
             <div>
               {item.title} {item.variantKey && `(${item.variantKey})`} x  <span className = 'font-bold text-xl'>{item.quantity}</span>
             </div>
